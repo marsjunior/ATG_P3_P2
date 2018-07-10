@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
 
 public class Main {
 	
@@ -84,6 +86,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		readVoos();
 		readEmpresas();
+<<<<<<< HEAD
 		scanner.close();
 		for (Voo voo : service.getMelhoresVoos()) {
 			System.out.println(voo.toString());
@@ -91,5 +94,20 @@ public class Main {
 		service.melhorVoo();
 		System.out.println("Voos: " + service.getMelhoresVoos().size() + " Aeroportos Br: " + aeroportosBr.length
 				+ " Aeroportos Eua: " + aeroportosEua.length);
+=======
+		String path = System.getProperty("user.dir");
+ 		File file = new File(path + "/grafo.csv");
+ 		file.createNewFile();
+ 		FileWriter arquivo = new FileWriter(file);
+ 		
+ 		for (Voo voo : melhoresVoos) {
+ 			arquivo.write(voo.getArq() + "\n");
+ 		}
+ 		arquivo.flush();
+ 		arquivo.close();
+ 		int total = aeroportosBr.length + aeroportosBrInter.length + aeroportosEua.length;
+ 		System.out.println("Voos: " + melhoresVoos.size() + " Aeroportos Br: " + aeroportosBr.length + " Aeroportos Br Inter: " + aeroportosBrInter.length + " Aeroportos Eua: "
++ aeroportosEua.length + " Vertices Total: " + total); 
+>>>>>>> 7500ca07a0e075c4896222d37fe4693ad305a7f8
 	}
 }
