@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-	private static ArrayList<Voo> melhoresVoos = new ArrayList<>();
+	
 	private static ArrayList<EmpresaAerea> empresas = new ArrayList<>();
 	private static String[] aeroportosBrInter = { "SBJP", "SBGR", "SBBR", "SBGL", "SBSV", "SBCF", "SBFZ", "SBEG",
 			"SBPA", "SBRF", "SBCT", "SBBE", "SBKP", "SBSG", "SBFL", "SBBV", "SBMQ", "SBPV", "SBSN", "SBCY", "SBCG",
@@ -22,6 +22,7 @@ public class Main {
 			"SBKP", "SBSG", "SBFL", "SBBV", "SBMQ", "SBPV", "SBSN", "SBCY", "SBCG", "SBMO", "SBFI", "SBCB", "SBCZ",
 			"SDSC", "SBRB", "SBTT", "SBPB" };
 	private static Scanner scanner;
+	private static ServiceVoos service = new ServiceVoos();
 
 	private static boolean containsArray(String[] array, String aeroporto) {
 		for (int i = 0; i < array.length; i++) {
@@ -45,66 +46,24 @@ public class Main {
 				Voo vooDaVez = null;
 				if (!voo[6].equals("") && !voo[8].equals("")) {
 					vooDaVez = new Voo(voo[4], voo[5], voo[6], voo[8]);
-					if (verificaVoo(vooDaVez))
-						melhoresVoos.add(vooDaVez);
+					if (service.verificaVoo(vooDaVez))
+						service.adicionaVoo(vooDaVez);
 				} else if (!voo[6].equals("") && !voo[9].equals("")) {
 					vooDaVez = new Voo(voo[4], voo[5], voo[6], voo[9]);
-					if (verificaVoo(vooDaVez))
-						melhoresVoos.add(vooDaVez);
+					if (service.verificaVoo(vooDaVez))
+						service.adicionaVoo(vooDaVez);
 				} else if (!voo[7].equals("") && !voo[8].equals("")) {
 					vooDaVez = new Voo(voo[4], voo[5], voo[7], voo[8]);
-					if (verificaVoo(vooDaVez))
-						melhoresVoos.add(vooDaVez);
+					if (service.verificaVoo(vooDaVez))
+						service.adicionaVoo(vooDaVez);
 				} else if (!voo[7].equals("") && !voo[9].equals("")) {
 					vooDaVez = new Voo(voo[4], voo[5], voo[7], voo[9]);
-					if (verificaVoo(vooDaVez))
-						melhoresVoos.add(vooDaVez);
+					if (service.verificaVoo(vooDaVez))
+						service.adicionaVoo(vooDaVez);
 				}
 
 			}
 		}
-	}
-
-	private static boolean verificaVoo(Voo vooDaVez) {
-		boolean retorno = true;
-		for (Voo voo : melhoresVoos) {
-			if (voo.getOrigem().equals(vooDaVez.getOrigem()) && voo.getDestino().equals(vooDaVez.getDestino())
-					&& !voo.getTempoDeVooString().equals(vooDaVez.getTempoDeVooString())) {
-				voo = comparaVoos(voo, vooDaVez);
-				retorno = false;
-			} else if (voo.getOrigem().equals(vooDaVez.getOrigem()) && voo.getDestino().equals(vooDaVez.getDestino())
-					&& voo.getTempoDeVooString().equals(vooDaVez.getTempoDeVooString()))
-				retorno = false;
-		}
-		return retorno;
-	}
-
-	private static Voo comparaVoos(Voo voo1, Voo voo2) {
-		Voo retorno = null;
-		if (voo1.getTempoDeVooMinutos() > voo2.getTempoDeVooMinutos())
-			retorno = voo2;
-		else
-			retorno = voo1;
-		return retorno;
-	}
-
-	private static void melhorVoo() {
-		Scanner sc = new Scanner(System.in);
-		String continuar = "sim";
-		while (continuar.equalsIgnoreCase("sim")) {
-			System.out.printf("Origem: ");
-			String origem = sc.nextLine();
-			System.out.printf("Destino: ");
-			String destino = sc.nextLine();			
-			for (Voo voo : melhoresVoos) {
-				if (voo.getOrigem().equalsIgnoreCase(origem) && voo.getDestino().equalsIgnoreCase(destino))
-					System.out.println("Aeroporto de Origem (Sigla): " + origem + ", Aeroporto de Destino (Sigla): " + destino
-							+ ", Tempo Medio de Duracao do Voo: " + voo.getTempoDeVooString());
-			}
-			System.out.printf("Deseja continuar a pesquisa? (Sim) ou (Nao): ");
-			continuar = sc.nextLine();
-		}
-		sc.close();
 	}
 
 	public static void readEmpresas() throws FileNotFoundException {
@@ -126,11 +85,11 @@ public class Main {
 		readVoos();
 		readEmpresas();
 		scanner.close();
-		for (Voo voo : melhoresVoos) {
+		for (Voo voo : service.getMelhoresVoos()) {
 			System.out.println(voo.toString());
 		}
-		melhorVoo();
-		System.out.println("Voos: " + melhoresVoos.size() + " Aeroportos Br: " + aeroportosBr.length
-				+ " Aeroportos Eua: " + aeroportosEua.length);		
+		service.melhorVoo();
+		System.out.println("Voos: " + service.getMelhoresVoos().size() + " Aeroportos Br: " + aeroportosBr.length
+				+ " Aeroportos Eua: " + aeroportosEua.length);
 	}
 }
