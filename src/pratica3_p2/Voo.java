@@ -9,7 +9,7 @@ public class Voo {
 	private String destino;
 	private String partidaPrevista;
 	private String chegadaPrevista;
-	private long tempoDeVoo;
+	private double tempoDeVoo;
 	private Calendar c1 = Calendar.getInstance();
 	private Calendar c2 = Calendar.getInstance();
 	
@@ -21,13 +21,13 @@ public class Voo {
 		this.tempoDeVoo = calculaTempoVoo(partidaPrevista, chegadaPrevista);
 	}
 
-	public long calculaTempoVoo(String partidaPrevista, String chegadaPrevista) throws ParseException {
+	public double calculaTempoVoo(String partidaPrevista, String chegadaPrevista) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		c1.setTime(sdf.parse(partidaPrevista));
 		c2.setTime(sdf.parse(chegadaPrevista));
-		long horas = c2.getTimeInMillis() - c1.getTimeInMillis() / 3600000;
-		long minutos = (c2.getTimeInMillis() - c1.getTimeInMillis() - horas * 3600000) / 60000;
-		long diferenca = horas + minutos;
+		double horas = c2.getTimeInMillis() - c1.getTimeInMillis() / 3600000;
+		double minutos = (c2.getTimeInMillis() - c1.getTimeInMillis() - horas * 3600000) / 60000;
+		double diferenca = ((horas + minutos)/3600000) % 24;
 		return diferenca;
 	}
 
@@ -51,7 +51,7 @@ public class Voo {
 		return chegadaPrevista;
 	}
 
-	public long getTempoDeVoo() {
+	public double getTempoDeVoo() {
 		return tempoDeVoo;
 	}
 }
