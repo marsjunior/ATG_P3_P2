@@ -1,7 +1,6 @@
 package pratica3_p2;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,7 +24,7 @@ public class Main {
 		return false;
 	}
 	
-	public static void readVoos() throws FileNotFoundException, ParseException {
+	public static void readVoos() throws Exception {
 		String path = System.getProperty("user.dir");
 		FileReader  file = new FileReader(path + "/vra-02_2018.csv");
 		Scanner scanner = new Scanner(file);
@@ -34,7 +33,17 @@ public class Main {
             String linha = scanner.nextLine();
             String[] voo = linha.split(";");
             if ( containsArray(aeroportosBr, voo[4]) && voo[3].equals("I") && containsArray(aeroportosEua, voo[5])) {
-            	Voo vooDaVez = new Voo(voo[4], voo[5], voo[6], voo[8]);
+            	Voo vooDaVez = null;
+            	if(!voo[6].equals("")&&!voo[8].equals(""))
+            		vooDaVez = new Voo(voo[4], voo[5], voo[6], voo[8]);
+            	if(!voo[6].equals("")&&!voo[9].equals(""))
+            		vooDaVez = new Voo(voo[4], voo[5], voo[6], voo[9]);
+            	if(!voo[7].equals("")&&!voo[8].equals(""))
+            		vooDaVez = new Voo(voo[4], voo[5], voo[7], voo[8]);
+            	if(!voo[7].equals("")&&!voo[9].equals(""))
+            		vooDaVez = new Voo(voo[4], voo[5], voo[7], voo[9]);
+            	else
+            		throw new Exception("Erro na Leitura: Voo Sem Hora de Partida/Chegada");
 	            voos.add(vooDaVez);
             }
         }
@@ -55,7 +64,7 @@ public class Main {
         }
 	}
 	
-	public static void main(String[] args) throws FileNotFoundException, ParseException {
+	public static void main(String[] args) throws Exception {
 		readVoos();
 		readEmpresas();
 		for (Voo voo : voos) {
