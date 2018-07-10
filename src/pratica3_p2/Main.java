@@ -126,10 +126,18 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		readVoos();
 		readEmpresas();
+		String path = System.getProperty("user.dir");
+		File file = new File(path + "/grafo.csv");
+		file.createNewFile();
+		FileWriter arquivo = new FileWriter(file);
+		
 		for (Voo voo : melhoresVoos) {
-			System.out.println(voo.toString());
+			arquivo.write(voo.getArq() + "\n");
 		}
-		System.out.println("Voos: " + melhoresVoos.size() + " Aeroportos Br: " + aeroportosBr.length + " Aeroportos Eua: "
-				+ aeroportosEua.length);
+		arquivo.flush();
+		arquivo.close();
+		int total = aeroportosBr.length + aeroportosBrInter.length + aeroportosEua.length;
+		System.out.println("Voos: " + melhoresVoos.size() + " Aeroportos Br: " + aeroportosBr.length + " Aeroportos Br Inter: " + aeroportosBrInter.length + " Aeroportos Eua: "
+				+ aeroportosEua.length + " Vertices Total: " + total);	
 	}
 }
