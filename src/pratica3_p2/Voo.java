@@ -78,7 +78,4 @@ public class Voo {
 	public int getTempoDeVooMinutos() {
 		return tempoDeVooMinutos;
 	}
-	public String getArq() {
-		return this.origem + ";" + this.destino;
-	}
 }
