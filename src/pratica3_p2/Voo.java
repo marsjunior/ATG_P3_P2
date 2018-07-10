@@ -1,7 +1,6 @@
 package pratica3_p2;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class Voo {
 
@@ -10,8 +9,6 @@ public class Voo {
 	private String partidaPrevista;
 	private String chegadaPrevista;
 	private double tempoDeVoo;
-	private Calendar c1 = Calendar.getInstance();
-	private Calendar c2 = Calendar.getInstance();
 	
 	public Voo(String origem, String destino, String partidaPrevista, String chegadaPrevista) throws ParseException {
 		this.origem = origem;
@@ -22,19 +19,22 @@ public class Voo {
 	}
 
 	public double calculaTempoVoo(String partidaPrevista, String chegadaPrevista) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		c1.setTime(sdf.parse(partidaPrevista));
-		c2.setTime(sdf.parse(chegadaPrevista));
-		double horas = c2.getTimeInMillis() - c1.getTimeInMillis() / 3600000;
-		double minutos = (c2.getTimeInMillis() - c1.getTimeInMillis() - horas * 3600000) / 60000;
-		double diferenca = ((horas + minutos)/3600000) % 24;
-		return diferenca;
+		SimpleDateFormat sdFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        java.util.Date dataInicio = sdFormat.parse(partidaPrevista);
+        java.util.Date dataFim = sdFormat.parse(chegadaPrevista);
+        double diff = dataFim.getTime() - dataInicio.getTime();
+        double resultado = diff / (1000*60*60);
+		return resultado;
 	}
 
 	public String toString() {
-		return origem + " " + destino + " " + partidaPrevista + " " + chegadaPrevista + " Tempo de Voo:" + tempoDeVoo;
+		return origem + " " + destino + " " + partidaPrevista + " " + chegadaPrevista + " Tempo de Voo: " + format(tempoDeVoo);
 	}
-
+	
+	private String format(double x) {  
+	    return String.format("%.1f", x);  
+	}
+	
 	public String getOrigem() {
 		return origem;
 	}
