@@ -8,19 +8,33 @@ import java.util.Scanner;
 public class Main {
 	private static ArrayList<Voo> melhoresVoos = new ArrayList<>();
 	private static ArrayList<EmpresaAerea> empresas = new ArrayList<>();
-	private static String[] aeroportosBrInter = { "SBJP", "SBGR", "SBBR", "SBGL", "SBSV", "SBCF", "SBFZ", "SBEG", "SBPA",
-			"SBRF", "SBCT", "SBBE", "SBKP", "SBSG", "SBFL", "SBBV", "SBMQ", "SBPV", "SBSN", "SBCY", "SBCG", "SBMO",
-			"SBFI", "SBCB", "SBCZ", "SDSC", "SBRB", "SBTT", "SBPB" };
+	private static String[] aeroportosBrInter = { "SBGL", "SBBR", "SBGR", "SBRF", "SBJP", "SBSV", "SBCF", "SBFZ", "SBEG",
+			"SBPA", "SBCT", "SBBE", "SBKP", "SBSG", "SBFL", "SBBV", "SBMQ", "SBPV", "SBSN", "SBCY", "SBCG", "SBMO",
+			"SBFI", "SBCB", "SBCZ", "SDSC", "SBRB", "SBTT", "SBPB", "SBGO", "SBAR", "SBTE"};
 	
-	private static String[] aeroportosBr = {"SBSP", "SBRJ", "SBVT", "SBGO", "SBPS", "SBAR", "SBTE", "SBUL", "SBRP",
-			"SBLO", "SBBH", "SBRB", "SBJU", "SBMG", "SBMO", "SSPS", "SBJV", "SBCX", "SBPL", "SBKG", "SBSN", "SBIL", "SBIZ",
-			"SBIZ", "SBCH", "SBMA", "SBDN", "SBDN", "SJTC", "SBMK"};
+	private static String[] aeroportosBr = {"SBSP", "SBRJ", "SBVT", "SBPS", "SBUL", "SBRP",
+			"SBLO", "SBBH", "SBRB", "SBJU", "SBMG", "SBJV", "SBCX", "SBPL", "SBKG", "SBIZ",
+			"SBCH", "SBMA", "SBDN", "SBDN", "SBMK"};
 
-	private static String[] aeroportosEua = { "KJFK", "KLGA", "KEWR", "KBOS", "KORD", "KIAD", "KDCA", "KATL", "KMCO",
-			"KMIA", "KIAH", "KDFW", "KLAX", "KLAS", "PHNL", "KSFO", "KSEA", "KDEN", "KDTW", "KLAN", "KPHX", "KMDW",
-			"KSLC", "SBJP", "SBGR", "SBBR", "SBGL", "SBSV", "SBCF", "SBFZ", "SBEG", "SBPA",
-			"SBRF", "SBCT", "SBBE", "SBKP", "SBSG", "SBFL", "SBBV", "SBMQ", "SBPV", "SBSN", "SBCY", "SBCG", "SBMO",
-			"SBFI", "SBCB", "SBCZ", "SDSC", "SBRB", "SBTT", "SBPB"};
+	private static String[] aeroportosEua = { "KBWI", "KCLT", "KORD", "KDFW", "KFTW", "KIAH", "KATL", "KJFK", "KBOS", "KEWR", "KMIA", "KORL"};
+	private static String[] aeroportosArgentina = { "SABE", "SACO", "SAEZ", "SAME", "SAAR", "SANT"};
+	private static String[] aeroportosMexico = { "MMUN", "MMMX", "MMGL", "MMMD"};
+	private static String[] aeroportosColombia = { "SKBQ", "SKBO", "SKCL", "SKRG"};
+	private static String[] aeroportosBolivia = { "SLCB", "SLLP", "SLVR"};
+	private static String[] aeroportosVenezuela = { "SVBC", "SVMI", "SVVA"};
+	private static String[] aeroportosChile = { "SCDA", "SCEL"};
+	private static String[] aeroportosUruguai = { "SULS", "SUMU"};
+	private static String[] aeroportosParaguai = { "SGAS", "SGES"};
+	private static String[] aeroportosEquador = { "SEGU", "SEQM"};
+	private static String[] aeroportosRepDominicana = { "MDPC", "MDSD"};
+	private static String[] aeroportosPanama = { "MPTO"};
+	private static String[] aeroportosCostaRica = { "MROC"};
+	private static String[] aeroportosCuba = { "MUHA"};
+	private static String[] aeroportosGuatemala = { "MGGT"};
+	private static String[] aeroportosPortoRico = { "TJSJ"};
+	private static String[] aeroportosPeru = { "SPJC"};
+	private static String[] aeroportosCanada = { "CYYZ"};
+
 	private static Scanner scanner;
 	
 	private static boolean containsArray(String[] array, String aeroporto) {
@@ -40,7 +54,10 @@ public class Main {
 		while (scanner.hasNextLine()) {
 			String linha = scanner.nextLine();
 			String[] voo = linha.split(";");
-			if (containsArray(aeroportosBrInter, voo[4]) && (containsArray(aeroportosBr, voo[5]) || containsArray(aeroportosEua, voo[5]))) {
+			if (containsArray(aeroportosBrInter, voo[4]) && (containsArray(aeroportosBr, voo[5]) || containsArray(aeroportosEua, voo[5]) || containsArray(aeroportosArgentina, voo[5]) || containsArray(aeroportosMexico, voo[5])
+					|| containsArray(aeroportosColombia, voo[5]) || containsArray(aeroportosBolivia, voo[5]) || containsArray(aeroportosVenezuela, voo[5]) || containsArray(aeroportosChile, voo[5]) || containsArray(aeroportosUruguai, voo[5])
+					|| containsArray(aeroportosParaguai, voo[5]) || containsArray(aeroportosEquador, voo[5]) || containsArray(aeroportosRepDominicana, voo[5]) || containsArray(aeroportosPanama, voo[5]) || containsArray(aeroportosCostaRica, voo[5])
+					|| containsArray(aeroportosCuba, voo[5]) || containsArray(aeroportosGuatemala, voo[5]) || containsArray(aeroportosPortoRico, voo[5]) || containsArray(aeroportosPeru, voo[5]) || containsArray(aeroportosCanada, voo[5]))) {
 				Voo vooDaVez = null;
 				if (!voo[6].equals("") && !voo[8].equals("")) {
 					vooDaVez = new Voo(voo[4], voo[5], voo[6], voo[8]);
