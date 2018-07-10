@@ -6,16 +6,20 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-	private static ArrayList<Voo> voos = new ArrayList<>();
+	private static ArrayList<Voo> melhoresVoos = new ArrayList<>();
 	private static ArrayList<EmpresaAerea> empresas = new ArrayList<>();
 	private static String[] aeroportosBr = { "SBJP", "SBGR", "SBBR", "SBGL", "SBSV", "SBCF", "SBFZ", "SBEG", "SBPA",
 			"SBRF", "SBCT", "SBBE", "SBKP", "SBSG", "SBFL", "SBBV", "SBMQ", "SBPV", "SBSN", "SBCY", "SBCG", "SBMO",
-			"SBFI", "SBCB", "SBCZ", "SDSC", "SBRB", "SBTT", "SBPB" };
+			"SBFI", "SBCB", "SBCZ", "SDSC", "SBRB", "SBTT", "SBPB", "KJFK", "KLGA", "KEWR", "KBOS", "KORD", "KIAD", "KDCA", "KATL", "KMCO",
+			"KMIA", "KIAH", "KDFW", "KLAX", "KLAS", "PHNL", "KSFO", "KSEA", "KDEN", "KDTW", "KLAN", "KPHX", "KMDW",
+			"KSLC"};
 	private static String[] aeroportosEua = { "KJFK", "KLGA", "KEWR", "KBOS", "KORD", "KIAD", "KDCA", "KATL", "KMCO",
 			"KMIA", "KIAH", "KDFW", "KLAX", "KLAS", "PHNL", "KSFO", "KSEA", "KDEN", "KDTW", "KLAN", "KPHX", "KMDW",
-			"KSLC" };
+			"KSLC", "SBJP", "SBGR", "SBBR", "SBGL", "SBSV", "SBCF", "SBFZ", "SBEG", "SBPA",
+			"SBRF", "SBCT", "SBBE", "SBKP", "SBSG", "SBFL", "SBBV", "SBMQ", "SBPV", "SBSN", "SBCY", "SBCG", "SBMO",
+			"SBFI", "SBCB", "SBCZ", "SDSC", "SBRB", "SBTT", "SBPB"};
 	private static Scanner scanner;
-
+	
 	private static boolean containsArray(String[] array, String aeroporto) {
 		for (int i = 0; i < array.length; i++) {
 			if (array[i].equals(aeroporto)) {
@@ -45,9 +49,37 @@ public class Main {
 					vooDaVez = new Voo(voo[4], voo[5], voo[7], voo[9]);
 				else
 					throw new Exception("Erro na Leitura: Voo Sem Hora de Partida/Chegada");
-				voos.add(vooDaVez);
+				if(verificaVoo(vooDaVez))
+					melhoresVoos.add(vooDaVez);
 			}
 		}
+	}
+
+	private static boolean verificaVoo(Voo vooDaVez) {
+		boolean retorno = true;
+		for (Voo voo : melhoresVoos) {
+			if(voo.getOrigem().equals(vooDaVez.getOrigem())
+					&&voo.getDestino().equals(vooDaVez.getDestino())
+					&&!voo.getTempoDeVoo().equals(vooDaVez.getTempoDeVoo())) {
+				voo = melhorVoo(voo, vooDaVez);
+				retorno = false;
+			}else if(voo.getOrigem().equals(vooDaVez.getOrigem())
+					&&voo.getDestino().equals(vooDaVez.getDestino())
+					&&voo.getTempoDeVoo().equals(vooDaVez.getTempoDeVoo()))
+				retorno = false;
+		}	
+		return retorno;
+	}
+
+	private static Voo melhorVoo(Voo voo1, Voo voo2) {
+		Voo retorno = voo1;
+		String[] stringVoo1 = voo1.getTempoDeVoo().split(":");
+		String[] stringVoo2 = voo2.getTempoDeVoo().split(":");
+		int tempoVoo1 = Integer.parseInt(stringVoo1[0])*60 + Integer.parseInt(stringVoo1[1]);
+		int tempoVoo2 = Integer.parseInt(stringVoo2[0])*60 + Integer.parseInt(stringVoo2[1]);
+		if(tempoVoo1>tempoVoo2)
+			retorno = voo2;
+		return retorno;
 	}
 
 	public static void readEmpresas() throws FileNotFoundException {
@@ -68,10 +100,10 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		readVoos();
 		readEmpresas();
-		for (Voo voo : voos) {
+		for (Voo voo : melhoresVoos) {
 			System.out.println(voo.toString());
 		}
-		System.out.println("Voos: " + voos.size() + " Aeroportos Br: " + aeroportosBr.length + " Aeroportos Eua: "
+		System.out.println("Voos: " + melhoresVoos.size() + " Aeroportos Br: " + aeroportosBr.length + " Aeroportos Eua: "
 				+ aeroportosEua.length);
 	}
 }
