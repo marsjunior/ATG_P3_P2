@@ -40,7 +40,7 @@ public class Main {
 		while (scanner.hasNextLine()) {
 			String linha = scanner.nextLine();
 			String[] voo = linha.split(";");
-			if (containsArray(aeroportosBr, voo[4]) && (containsArray(aeroportosBr, voo[5]) || containsArray(aeroportosEua, voo[5]))) {
+			if (containsArray(aeroportosBrInter, voo[4]) && (containsArray(aeroportosBr, voo[5]) || containsArray(aeroportosEua, voo[5]))) {
 				Voo vooDaVez = null;
 				if (!voo[6].equals("") && !voo[8].equals("")) {
 					vooDaVez = new Voo(voo[4], voo[5], voo[6], voo[8]);
