@@ -8,11 +8,14 @@ import java.util.Scanner;
 public class Main {
 	private static ArrayList<Voo> melhoresVoos = new ArrayList<>();
 	private static ArrayList<EmpresaAerea> empresas = new ArrayList<>();
-	private static String[] aeroportosBr = { "SBJP", "SBGR", "SBBR", "SBGL", "SBSV", "SBCF", "SBFZ", "SBEG", "SBPA",
+	private static String[] aeroportosBrInter = { "SBJP", "SBGR", "SBBR", "SBGL", "SBSV", "SBCF", "SBFZ", "SBEG", "SBPA",
 			"SBRF", "SBCT", "SBBE", "SBKP", "SBSG", "SBFL", "SBBV", "SBMQ", "SBPV", "SBSN", "SBCY", "SBCG", "SBMO",
-			"SBFI", "SBCB", "SBCZ", "SDSC", "SBRB", "SBTT", "SBPB", "KJFK", "KLGA", "KEWR", "KBOS", "KORD", "KIAD", "KDCA", "KATL", "KMCO",
-			"KMIA", "KIAH", "KDFW", "KLAX", "KLAS", "PHNL", "KSFO", "KSEA", "KDEN", "KDTW", "KLAN", "KPHX", "KMDW",
-			"KSLC"};
+			"SBFI", "SBCB", "SBCZ", "SDSC", "SBRB", "SBTT", "SBPB" };
+	
+	private static String[] aeroportosBr = {"SBSP", "SBRJ", "SBVT", "SBGO", "SBPS", "SBAR", "SBTE", "SBUL", "SBRP",
+			"SBLO", "SBBH", "SBRB", "SBJU", "SBMG", "SBMO", "SSPS", "SBJV", "SBCX", "SBPL", "SBKG", "SBSN", "SBIL", "SBIZ",
+			"SBIZ", "SBCH", "SBMA", "SBDN", "SBDN", "SJTC", "SBMK"};
+
 	private static String[] aeroportosEua = { "KJFK", "KLGA", "KEWR", "KBOS", "KORD", "KIAD", "KDCA", "KATL", "KMCO",
 			"KMIA", "KIAH", "KDFW", "KLAX", "KLAS", "PHNL", "KSFO", "KSEA", "KDEN", "KDTW", "KLAN", "KPHX", "KMDW",
 			"KSLC", "SBJP", "SBGR", "SBBR", "SBGL", "SBSV", "SBCF", "SBFZ", "SBEG", "SBPA",
@@ -37,20 +40,26 @@ public class Main {
 		while (scanner.hasNextLine()) {
 			String linha = scanner.nextLine();
 			String[] voo = linha.split(";");
-			if (containsArray(aeroportosBr, voo[4]) && voo[3].equals("I") && containsArray(aeroportosEua, voo[5])) {
+			if (containsArray(aeroportosBr, voo[4]) && (containsArray(aeroportosBr, voo[5]) || containsArray(aeroportosEua, voo[5]))) {
 				Voo vooDaVez = null;
-				if (!voo[6].equals("") && !voo[8].equals(""))
+				if (!voo[6].equals("") && !voo[8].equals("")) {
 					vooDaVez = new Voo(voo[4], voo[5], voo[6], voo[8]);
-				else if (!voo[6].equals("") && !voo[9].equals(""))
+					if(verificaVoo(vooDaVez))
+						melhoresVoos.add(vooDaVez);
+				}else if (!voo[6].equals("") && !voo[9].equals("")) {
 					vooDaVez = new Voo(voo[4], voo[5], voo[6], voo[9]);
-				else if (!voo[7].equals("") && !voo[8].equals(""))
+					if(verificaVoo(vooDaVez))
+						melhoresVoos.add(vooDaVez);
+				}else if (!voo[7].equals("") && !voo[8].equals("")) {
 					vooDaVez = new Voo(voo[4], voo[5], voo[7], voo[8]);
-				else if (!voo[7].equals("") && !voo[9].equals(""))
+					if(verificaVoo(vooDaVez))
+						melhoresVoos.add(vooDaVez);
+				}else if (!voo[7].equals("") && !voo[9].equals("")) {
 					vooDaVez = new Voo(voo[4], voo[5], voo[7], voo[9]);
-				else
-					throw new Exception("Erro na Leitura: Voo Sem Hora de Partida/Chegada");
-				if(verificaVoo(vooDaVez))
-					melhoresVoos.add(vooDaVez);
+					if(verificaVoo(vooDaVez))
+						melhoresVoos.add(vooDaVez);
+				}
+				
 			}
 		}
 	}
