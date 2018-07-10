@@ -69,25 +69,23 @@ public class Main {
 		for (Voo voo : melhoresVoos) {
 			if(voo.getOrigem().equals(vooDaVez.getOrigem())
 					&&voo.getDestino().equals(vooDaVez.getDestino())
-					&&!voo.getTempoDeVoo().equals(vooDaVez.getTempoDeVoo())) {
+					&&!voo.getTempoDeVooString().equals(vooDaVez.getTempoDeVooString())) {
 				voo = melhorVoo(voo, vooDaVez);
 				retorno = false;
 			}else if(voo.getOrigem().equals(vooDaVez.getOrigem())
 					&&voo.getDestino().equals(vooDaVez.getDestino())
-					&&voo.getTempoDeVoo().equals(vooDaVez.getTempoDeVoo()))
+					&&voo.getTempoDeVooString().equals(vooDaVez.getTempoDeVooString()))
 				retorno = false;
 		}	
 		return retorno;
 	}
 
 	private static Voo melhorVoo(Voo voo1, Voo voo2) {
-		Voo retorno = voo1;
-		String[] stringVoo1 = voo1.getTempoDeVoo().split(":");
-		String[] stringVoo2 = voo2.getTempoDeVoo().split(":");
-		int tempoVoo1 = Integer.parseInt(stringVoo1[0])*60 + Integer.parseInt(stringVoo1[1]);
-		int tempoVoo2 = Integer.parseInt(stringVoo2[0])*60 + Integer.parseInt(stringVoo2[1]);
-		if(tempoVoo1>tempoVoo2)
+		Voo retorno = null;		
+		if(voo1.getTempoDeVooMinutos()>voo2.getTempoDeVooMinutos())
 			retorno = voo2;
+		else
+			retorno = voo1;
 		return retorno;
 	}
 

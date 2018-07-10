@@ -7,22 +7,24 @@ public class Voo {
 	private String destino;
 	private String partidaPrevista;
 	private String chegadaPrevista;
-	private String tempoDeVoo;
+	private String tempoDeVooString;
+	private int tempoDeVooMinutos;
 	
 	public Voo(String origem, String destino, String partidaPrevista, String chegadaPrevista) throws ParseException {
 		this.origem = origem;
 		this.destino = destino;
 		this.partidaPrevista = partidaPrevista;
 		this.chegadaPrevista = chegadaPrevista;
-		this.tempoDeVoo = calculaTempoVoo(partidaPrevista, chegadaPrevista);
+		this.tempoDeVooString = calculaTempoVoo(partidaPrevista, chegadaPrevista);
+		this.tempoDeVooMinutos = transformaEmMinutos(this.tempoDeVooString);
+	}
+
+	private int transformaEmMinutos(String tempoDeVooString) {
+		String[] tempo = tempoDeVooString.split(":");
+		return (Integer.parseInt(tempo[0])*60)+(Integer.parseInt(tempo[1]));
 	}
 
 	public String calculaTempoVoo(String partidaPrevista, String chegadaPrevista) throws ParseException {
-//		SimpleDateFormat sdFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-//        java.util.Date dataInicio = sdFormat.parse(partidaPrevista);
-//        java.util.Date dataFim = sdFormat.parse(chegadaPrevista);
-//        double diff = dataFim.getTime() - dataInicio.getTime();
-//        double resultado = diff / (1000*60*60);
 		String[] partida = partidaPrevista.split(" ");
 		String[] chegada = chegadaPrevista.split(" ");
 		String retorno = calculaHora(partida[1], chegada[1]); 
@@ -47,9 +49,10 @@ public class Voo {
 		}
 		return retorno;
 	}
-
+	
 	public String toString() {
-		return origem + " " + destino + " " + partidaPrevista + " " + chegadaPrevista + " Tempo de Voo: " + tempoDeVoo;
+		return origem + " " + destino + " " + partidaPrevista + " " + chegadaPrevista + 
+				" Tempo de Voo: " + tempoDeVooString + " Tempo de Voo Minutos: " + tempoDeVooMinutos;
 	}
 	
 	public String getOrigem() {
@@ -68,7 +71,11 @@ public class Voo {
 		return chegadaPrevista;
 	}
 
-	public String getTempoDeVoo() {
-		return tempoDeVoo;
+	public String getTempoDeVooString() {
+		return tempoDeVooString;
+	}
+	
+	public int getTempoDeVooMinutos() {
+		return tempoDeVooMinutos;
 	}
 }
