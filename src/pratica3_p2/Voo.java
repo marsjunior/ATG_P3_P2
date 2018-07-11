@@ -51,16 +51,16 @@ public class Voo {
 	}
 	
 	public String toString() {
-		return origem + " " + destino + " " + partidaPrevista + " " + chegadaPrevista + 
+		return origem + " " + this.destino + " " + partidaPrevista + " " + chegadaPrevista + 
 				" Tempo de Voo: " + tempoDeVooString + " Tempo de Voo Minutos: " + tempoDeVooMinutos;
 	}
 	
 	public String getOrigem() {
-		return origem;
+		return this.origem;
 	}
 
 	public String getDestino() {
-		return destino;
+		return this.destino;
 	}
 
 	public String getPartidaPrevista() {
