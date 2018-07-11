@@ -26,16 +26,16 @@ public class ServiceVoos {
 
 		return retorno;
 	}
-	
+
 	private int getTempoVoo(String destino, String origem) {
 		int retorno = 0;
 		for (Voo voo : melhoresVoos) {
-			if(voo.getDestino().equalsIgnoreCase(destino)&&voo.getOrigem().equalsIgnoreCase(origem))
+			if (voo.getDestino().equalsIgnoreCase(destino) && voo.getOrigem().equalsIgnoreCase(origem))
 				retorno = voo.getTempoDeVooMinutos();
 		}
 		return retorno;
 	}
-	
+
 	private static Voo comparaVoos(Voo voo1, Voo voo2) {
 		Voo retorno = null;
 		if (voo1.getTempoDeVooMinutos() > voo2.getTempoDeVooMinutos())
@@ -61,11 +61,13 @@ public class ServiceVoos {
 						cont = 0;
 						break;
 					}
-					cont ++;
+					cont++;
 				}
 				if (cont > 0) {
 					System.out.println("Procurando Conexao");
-					toStringVooConexao(procuraConexao(origem, destino),origem);
+					Voo conexao2 = procuraConexao(origem, destino, 2);
+					Voo conexao1 = procuraConexao(origem, conexao2.getOrigem(), 1);
+					toStringVooConexao(conexao2, conexao1);
 				}
 
 				System.out.printf("Deseja continuar a pesquisa? (Sim) ou (Nao): ");
@@ -74,7 +76,7 @@ public class ServiceVoos {
 				throw new Exception("Aeroporto de Origem e/ou Destino Nao Cadastrado, digite novamente!");
 			}
 		}
-		sc.close();		
+		sc.close();
 	}
 
 	private static boolean verifica(String aeroporto) {
@@ -86,23 +88,32 @@ public class ServiceVoos {
 		return retorno;
 	}
 
-	private static Voo procuraConexao(String origem, String destino) {
+	private static Voo procuraConexao(String origem, String destino, int conexao) {
 		ArrayList<Voo> parte1 = new ArrayList<>();
-		Voo melhorVoo = null;
+		Voo melhorVooConexao1 = null;
+		Voo melhorVooConexao2 = null;
 		int melhorTempo = 100000;
 		for (Voo voo : melhoresVoos) {
-			if (voo.getDestino().equalsIgnoreCase(destino))
+			if (voo.getDestino().equals(destino))
 				parte1.add(voo);
 		}
-		
 		for (Voo voo : parte1) {
-			if (voo.getTempoDeVooMinutos() < melhorTempo) {
-				melhorTempo = voo.getTempoDeVooMinutos();
-				melhorVoo = voo;
-			}
+			System.out.println(voo);
 		}
 
-		return melhorVoo;
+		for (Voo conexao2 : parte1) {
+			for (Voo conexao1 : melhoresVoos) {
+				if (conexao2.getTempoDeVooMinutos() < melhorTempo&&conexao1.getDestino().equalsIgnoreCase(conexao2.getOrigem())) {
+					melhorTempo = conexao2.getTempoDeVooMinutos();
+					melhorVooConexao2 = conexao2;
+					melhorVooConexao1 = conexao1;
+				}
+			}
+		}
+		if(conexao == 1)
+			return melhorVooConexao1;
+		else
+			return melhorVooConexao2;
 	}
 
 	private void toStringVooDireto(Voo voo) {
@@ -111,10 +122,11 @@ public class ServiceVoos {
 
 	}
 
-	private void toStringVooConexao(Voo vooConexao, String origem) {
-		System.out.println("Aeroporto de Origem (Sigla): " + origem + ", Aeroporto de Destino (Sigla): " + vooConexao.getDestino()
-		+ ", Aeroporto Conexao: "+ vooConexao.getOrigem()+", Tempo de Conexao: "+vooConexao.getTempoDeVooMinutos()
-		+ ", Tempo Medio de Duracao do Voo: " + (vooConexao.getTempoDeVooMinutos()+getTempoVoo(vooConexao.getOrigem(), origem)));
+	private void toStringVooConexao(Voo vooConexao2, Voo vooConexao1) {
+		System.out.println("Aeroporto de Origem (Sigla): " + vooConexao1.getOrigem() + ", Aeroporto de Destino (Sigla): "
+				+ vooConexao2.getDestino() + ", Aeroporto Conexao: " + vooConexao2.getOrigem() + ", Tempo de Conexao: "
+				+ vooConexao2.getTempoDeVooMinutos() + ", Tempo Medio de Duracao do Voo: "
+				+ (vooConexao2.getTempoDeVooMinutos() + vooConexao1.getTempoDeVooMinutos()));
 
 	}
 }
