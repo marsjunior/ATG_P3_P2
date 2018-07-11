@@ -45,7 +45,7 @@ public class ServiceVoos {
 		return retorno;
 	}
 
-	public void melhorVoo() throws Exception {
+	public void melhorVoo() {
 		sc = new Scanner(System.in);
 		String continuar = "sim";
 		while (continuar.equalsIgnoreCase("sim")) {
@@ -64,15 +64,15 @@ public class ServiceVoos {
 				}
 				if (!vooDireto) {
 					System.out.println("Procurando Conexao");
-					Voo conexao2 = procuraConexao(origem, destino, 2);
-					Voo conexao1 = procuraConexao(origem, conexao2.getOrigem(), 1);
+					Voo conexao2 = procuraConexao(origem.toUpperCase(), destino.toUpperCase(), 2);
+					Voo conexao1 = procuraConexao(origem.toUpperCase(), conexao2.getOrigem(), 1);
 					toStringVooConexao(conexao2, conexao1);
 				}
 
 				System.out.printf("Deseja continuar a pesquisa? (Sim) ou (Nao): ");
 				continuar = sc.nextLine();
-			} else {
-				throw new Exception("Aeroporto de Origem e/ou Destino Nao Cadastrado, digite novamente!");
+			} else {				
+					System.out.println("Aeroporto de Origem e/ou Destino Nao Cadastrado, digite novamente!");				
 			}
 		}
 		sc.close();
