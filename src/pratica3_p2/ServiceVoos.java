@@ -65,8 +65,12 @@ public class ServiceVoos {
 				if (!vooDireto) {
 					System.out.println("Procurando Conexao");
 					Voo conexao2 = procuraConexao(origem.toUpperCase(), destino.toUpperCase(), 2);
-					Voo conexao1 = procuraConexao(origem.toUpperCase(), conexao2.getOrigem(), 1);
-					toStringVooConexao(conexao2, conexao1);
+					if(conexao2 != null) {
+						Voo conexao1 = procuraConexao(origem.toUpperCase(), conexao2.getOrigem().toUpperCase(), 1);
+						toStringVooConexao(conexao2, conexao1);
+					}else {
+						System.out.println("Voo nao possivel com uma conexao!");
+					}
 				}
 
 				System.out.printf("Deseja continuar a pesquisa? (Sim) ou (Nao): ");
